@@ -203,6 +203,4 @@ class GHeapletSpec extends Specification {
         @Attribute
         char aChar2
     }
-
-
 }
