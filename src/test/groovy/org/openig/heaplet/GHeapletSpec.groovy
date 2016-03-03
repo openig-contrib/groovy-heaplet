@@ -90,17 +90,6 @@ class GHeapletSpec extends Specification {
         object.handler
     }
 
-    def "should transform attribute"() {
-        given:
-        def heaplet = new GHeaplet(TransformSupport)
-
-        when:
-        def object = heaplet.create(name, json([message: "Hello"]), heap)
-
-        then:
-        object.message == "Hello World"
-    }
-
     @Unroll
     def "#type.simpleName message should be equal to #result"() {
         given:
@@ -119,6 +108,7 @@ class GHeapletSpec extends Specification {
         RequiredImplicitAttribute | [ "message": "Hello" ] || "Hello"
         OptionalAttribute         | [ "message": "Hello" ] || "Hello"
         OptionalAttribute         | [:]                    || null
+        TransformSupport          | [ "message": "Hello" ] || "Hello World"
     }
 
     def "should inject primitive types"() {
