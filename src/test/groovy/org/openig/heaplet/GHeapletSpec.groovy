@@ -139,46 +139,46 @@ class GHeapletSpec extends Specification {
         object.aChar2 == 'a'
     }
 
-    public static class RequiredImplicitAttribute {
+    static class RequiredImplicitAttribute {
         String message
     }
 
-    public static class RequiredAttribute {
+    static class RequiredAttribute {
         @Attribute
         String message
     }
 
-    public static class OptionalAttribute {
+    static class OptionalAttribute {
         @Optional
         @Attribute
         String message
     }
 
-    public static class RequiredNamedAttribute {
+    static class RequiredNamedAttribute {
         @Attribute("msg")
         String message
     }
 
-    public static class ReferenceSupport {
+    static class ReferenceSupport {
         @Attribute
         @Reference
         Handler handler
     }
 
-    public static class OptionalReferenceSupport {
+    static class OptionalReferenceSupport {
         @Attribute
         @Optional
         @Reference
         Handler handler
     }
 
-    public static class TransformSupport {
+    static class TransformSupport {
         @Attribute
         @Transform({"${it.asString()} World"})
         String message
     }
 
-    public static class PrimitiveTypes {
+    static class PrimitiveTypes {
         @Attribute
         boolean aBoolean
 
