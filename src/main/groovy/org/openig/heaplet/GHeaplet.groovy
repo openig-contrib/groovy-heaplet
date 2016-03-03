@@ -18,7 +18,9 @@ package org.openig.heaplet
 
 import org.forgerock.json.JsonValue
 import org.forgerock.openig.heap.GenericHeaplet
+import org.forgerock.openig.heap.Heap
 import org.forgerock.openig.heap.HeapException
+import org.forgerock.openig.heap.Name
 import org.openig.heaplet.coerce.Converters
 
 import java.lang.reflect.Field
@@ -53,11 +55,31 @@ public class GHeaplet extends GenericHeaplet {
                 }
             }
 
-            Optional optional = field.getAnnotation(Optional)
-            Reference reference = field.getAnnotation(Reference)
-            Transform transform = field.getAnnotation(Transform)
+            def value
+            Context context = field.getAnnotation(Context)
+            if (context) {
+                // Only supported: Heap, JsonValue and Name
+                switch (property.type) {
+                    case Heap:
+                        value = heap
+                        break
+                    case JsonValue:
+                        value = config
+                        break
+                    case Name:
+                        value = qualified
+                        break
+                    default:
+                        throw new HeapException("@Context is only supported on Heap, JsonValue and Name")
+                }
+            } else {
+                Optional optional = field.getAnnotation(Optional)
+                Reference reference = field.getAnnotation(Reference)
+                Transform transform = field.getAnnotation(Transform)
 
-            def value = convert(config.get(pointer), field, optional, reference, transform)
+                value = convert(config.get(pointer), field, optional, reference, transform)
+            }
+
             property.setProperty(o, value)
         }
         return o;
