@@ -20,17 +20,14 @@ import org.forgerock.http.Handler
 import org.forgerock.http.protocol.Response
 import org.forgerock.http.protocol.Status
 import org.forgerock.json.JsonValue
-import org.forgerock.openig.heap.Heap
-import org.forgerock.openig.heap.HeapException
-import org.forgerock.openig.heap.HeapImpl
-import org.forgerock.openig.heap.Keys
-import org.forgerock.openig.heap.Name
+import org.forgerock.openig.heap.*
 import org.forgerock.openig.io.TemporaryStorage
 import org.forgerock.openig.log.NullLogSink
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import java.util.concurrent.ConcurrentSkipListSet
 import java.util.concurrent.CopyOnWriteArrayList
 
 import static org.forgerock.http.protocol.Response.newResponsePromise
@@ -174,6 +171,21 @@ class GHeapletSpec extends Specification {
         expect object.copyOnWriteArrayList, hasItems("one", "two", "three")
     }
 
+    def "Should support Set injection"() {
+        given:
+        def heaplet = new GHeaplet(RequiredSetAttribute)
+
+        when:
+        def RequiredSetAttribute object = heaplet.create(name, json([messages: [ "one", "two", "three" ]]), heap)
+
+        then:
+        expect object.set, hasItems("one", "two", "three")
+        expect object.treeSet, hasItems("one", "two", "three")
+        expect object.linkedHashSet, hasItems("one", "two", "three")
+        expect object.hashSet, hasItems("one", "two", "three")
+        expect object.concurrentSkipListSet, hasItems("one", "two", "three")
+    }
+
 
     static class RequiredImplicitAttribute {
         String message
@@ -266,6 +278,23 @@ class GHeapletSpec extends Specification {
 
         @Attribute('messages')
         CopyOnWriteArrayList<String> copyOnWriteArrayList
+    }
+
+    static class RequiredSetAttribute {
+        @Attribute('messages')
+        Set<String> set
+
+        @Attribute('messages')
+        HashSet<String> hashSet
+
+        @Attribute('messages')
+        LinkedHashSet<String> linkedHashSet
+
+        @Attribute('messages')
+        TreeSet<String> treeSet
+
+        @Attribute('messages')
+        ConcurrentSkipListSet<String> concurrentSkipListSet
     }
 
 }

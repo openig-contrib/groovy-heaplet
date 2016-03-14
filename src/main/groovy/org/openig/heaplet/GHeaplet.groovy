@@ -99,12 +99,20 @@ public class GHeaplet extends GenericHeaplet {
             throw new HeapException("${node.pointer} is required")
         }
 
-
         if (List.isAssignableFrom(field.type)) {
             // Get generic type info
             ParameterizedType pt = field.genericType
             Class clazz = pt.getActualTypeArguments()[0] as Class
             return node.collect {
+                doConvert(it, clazz, reference, optional, transform)
+            }
+        }
+
+        if (Set.isAssignableFrom(field.type)) {
+            // Get generic type info
+            ParameterizedType pt = field.genericType
+            Class clazz = pt.getActualTypeArguments()[0] as Class
+            return node.collect(new LinkedHashSet()) {
                 doConvert(it, clazz, reference, optional, transform)
             }
         }
