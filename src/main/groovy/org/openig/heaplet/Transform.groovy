@@ -16,7 +16,6 @@
 
 package org.openig.heaplet
 
-import org.forgerock.json.JsonTransformer
 import org.openig.heaplet.coerce.Converter
 
 import java.lang.annotation.ElementType
@@ -27,5 +26,5 @@ import java.lang.annotation.Target
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @interface Transform {
-    Class value()
+    Class<? extends Converter<?>> value()
 }
