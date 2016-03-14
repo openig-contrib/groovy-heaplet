@@ -24,6 +24,7 @@ import org.forgerock.openig.heap.Name
 import org.openig.heaplet.coerce.Converters
 
 import java.lang.reflect.Field
+import java.lang.reflect.Modifier
 import java.lang.reflect.ParameterizedType
 
 /**
@@ -47,8 +48,13 @@ public class GHeaplet extends GenericHeaplet {
             if (!property.field) {
                 return
             }
-            Field field = property.field.field
 
+            // Exclude static / final fields
+            if (Modifier.isStatic(property.modifiers) || Modifier.isFinal(property.modifiers)) {
+                throw new HeapException("Cannot inject in static or final field " + property.name)
+            }
+
+            Field field = property.field.field
             if (field.isAnnotationPresent(Attribute)) {
                 def name = field.getAnnotation(Attribute).value()
                 if (!"".equals(name)) {

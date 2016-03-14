@@ -114,6 +114,23 @@ class GHeapletSpec extends Specification {
         TransformSupport          | [ "message": "Hello" ] || "Hello World"
     }
 
+    @Unroll
+    def "Should not inject static or final attributes in #type.simpleName"() {
+        given:
+        def heaplet = new GHeaplet(type)
+
+        when:
+        heaplet.create(name, json(config), heap)
+
+        then:
+        thrown(HeapException)
+
+        where:
+        type              | config
+        StaticAttribute   | [ "message": "Hello" ]
+        FinalAttribute    | [ "message": "Hello" ]
+    }
+
     def "Should inject heap, config and name"() {
         given:
         def heaplet = new GHeaplet(ContextSupport)
@@ -186,6 +203,14 @@ class GHeapletSpec extends Specification {
         expect object.concurrentSkipListSet, hasItems("one", "two", "three")
     }
 
+
+    static class StaticAttribute {
+        static String message
+    }
+
+    static class FinalAttribute {
+        final String message = "a"
+    }
 
     static class RequiredImplicitAttribute {
         String message
