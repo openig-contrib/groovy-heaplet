@@ -203,6 +203,17 @@ class GHeapletSpec extends Specification {
         expect object.concurrentSkipListSet, hasItems("one", "two", "three")
     }
 
+    def "Should support Collection injection"() {
+        given:
+        def heaplet = new GHeaplet(RequiredCollectionAttribute)
+
+        when:
+        def RequiredCollectionAttribute object = heaplet.create(name, json([messages: [ "one", "two", "three" ]]), heap)
+
+        then:
+        expect object.collection, hasItems("one", "two", "three")
+    }
+
 
     static class StaticAttribute {
         static String message
@@ -322,4 +333,8 @@ class GHeapletSpec extends Specification {
         ConcurrentSkipListSet<String> concurrentSkipListSet
     }
 
+    static class RequiredCollectionAttribute {
+        @Attribute('messages')
+        Collection<String> collection
+    }
 }

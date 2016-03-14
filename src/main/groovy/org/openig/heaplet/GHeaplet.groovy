@@ -123,6 +123,15 @@ public class GHeaplet extends GenericHeaplet {
             }
         }
 
+        if (Collection.isAssignableFrom(field.type)) {
+            // Get generic type info
+            ParameterizedType pt = field.genericType
+            Class clazz = pt.getActualTypeArguments()[0] as Class
+            return node.collect {
+                doConvert(it, clazz, reference, optional, transform)
+            }
+        }
+
         return doConvert(node, field.type, reference, optional, transform)
     }
 
