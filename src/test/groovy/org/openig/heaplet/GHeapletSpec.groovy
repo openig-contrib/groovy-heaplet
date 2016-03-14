@@ -214,6 +214,18 @@ class GHeapletSpec extends Specification {
         expect object.collection, hasItems("one", "two", "three")
     }
 
+    def "Should support transformation on collections"() {
+        given:
+        def heaplet = new GHeaplet(TransformedAttributes)
+
+        when:
+        def TransformedAttributes object = heaplet.create(name, json([messages: [ "one", "two", "three" ]]), heap)
+
+        then:
+        expect object.list, hasItems("one world", "two world", "three world")
+        expect object.set, hasItems("one world", "two world", "three world")
+        expect object.collection, hasItems("one world", "two world", "three world")
+    }
 
     static class StaticAttribute {
         static String message
@@ -336,5 +348,19 @@ class GHeapletSpec extends Specification {
     static class RequiredCollectionAttribute {
         @Attribute('messages')
         Collection<String> collection
+    }
+
+    static class TransformedAttributes {
+        @Attribute('messages')
+        @Transform({"${it.asString()} world" as String})
+        Collection<String> collection
+
+        @Attribute('messages')
+        @Transform({"${it.asString()} world" as String})
+        List<String> list
+
+        @Attribute('messages')
+        @Transform({"${it.asString()} world" as String})
+        Set<String> set
     }
 }
