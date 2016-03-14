@@ -24,6 +24,7 @@ import org.forgerock.openig.heap.Name
 import org.openig.heaplet.coerce.Converters
 
 import java.lang.reflect.Field
+import java.lang.reflect.ParameterizedType
 
 /**
  * Created by guillaume on 01/03/16.
@@ -98,9 +99,23 @@ public class GHeaplet extends GenericHeaplet {
             throw new HeapException("${node.pointer} is required")
         }
 
+
+        if (List.isAssignableFrom(field.type)) {
+            // Get generic type info
+            ParameterizedType pt = field.genericType
+            Class clazz = pt.getActualTypeArguments()[0] as Class
+            return node.collect {
+                doConvert(it, clazz, reference, optional, transform)
+            }
+        }
+
+        return doConvert(node, field.type, reference, optional, transform)
+    }
+
+    private doConvert(JsonValue node, Class type, Reference reference, Optional optional, Transform transform) {
         if (reference) {
             def opt = optional != null
-            return heap.resolve(node, field.type, opt)
+            return heap.resolve(node, type, opt)
         }
 
         if (transform) {
@@ -108,9 +123,9 @@ public class GHeaplet extends GenericHeaplet {
             return converter(node)
         }
 
-        def converter = converters.find(field.type)
+        def converter = converters.find(type)
         if (!converter) {
-            throw new HeapException("${field.type.name} is not supported yet")
+            throw new HeapException("${type.name} is not supported yet")
         }
         return converter.apply(node)
     }

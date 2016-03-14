@@ -31,8 +31,12 @@ import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import java.util.concurrent.CopyOnWriteArrayList
+
 import static org.forgerock.http.protocol.Response.newResponsePromise
 import static org.forgerock.json.JsonValue.json
+import static org.hamcrest.CoreMatchers.hasItems
+import static spock.util.matcher.HamcrestSupport.expect
 
 /**
  * Created by guillaume on 02/03/16.
@@ -155,6 +159,22 @@ class GHeapletSpec extends Specification {
         object.aChar2 == 'a'
     }
 
+    def "Should support List injection"() {
+        given:
+        def heaplet = new GHeaplet(RequiredListAttribute)
+
+        when:
+        def RequiredListAttribute object = heaplet.create(name, json([messages: [ "one", "two", "three" ]]), heap)
+
+        then:
+        expect object.list, hasItems("one", "two", "three")
+        expect object.arrayList, hasItems("one", "two", "three")
+        expect object.linkedList, hasItems("one", "two", "three")
+        expect object.vector, hasItems("one", "two", "three")
+        expect object.copyOnWriteArrayList, hasItems("one", "two", "three")
+    }
+
+
     static class RequiredImplicitAttribute {
         String message
     }
@@ -230,4 +250,22 @@ class GHeapletSpec extends Specification {
         @Context
         Name name
     }
+
+    static class RequiredListAttribute {
+        @Attribute('messages')
+        List<String> list
+
+        @Attribute('messages')
+        LinkedList<String> linkedList
+
+        @Attribute('messages')
+        ArrayList<String> arrayList
+
+        @Attribute('messages')
+        Vector<String> vector
+
+        @Attribute('messages')
+        CopyOnWriteArrayList<String> copyOnWriteArrayList
+    }
+
 }
