@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.openig.heaplet
+package org.openig.groovy.heaplet
 
 import java.lang.annotation.ElementType
 import java.lang.annotation.Retention
@@ -27,5 +27,6 @@ import java.lang.annotation.Target
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@interface Optional {
+@interface Reference {
+
 }

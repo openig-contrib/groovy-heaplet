@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.openig.heaplet.coerce
+package org.openig.groovy.heaplet.coerce
 
 import org.forgerock.json.JsonPointer
 import org.forgerock.openig.heap.HeapException

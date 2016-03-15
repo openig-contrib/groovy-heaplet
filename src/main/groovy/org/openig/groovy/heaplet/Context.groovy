@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package org.openig.heaplet
-
-import org.codehaus.groovy.transform.GroovyASTTransformationClass
+package org.openig.groovy.heaplet
 
 import java.lang.annotation.ElementType
 import java.lang.annotation.Retention
@@ -24,11 +22,9 @@ import java.lang.annotation.RetentionPolicy
 import java.lang.annotation.Target
 
 /**
- * Created by guillaume on 05/03/16.
+ * Created by guillaume on 03/03/16.
  */
-@Retention(RetentionPolicy.SOURCE)
-@Target(ElementType.TYPE)
-@GroovyASTTransformationClass([ "org.openig.heaplet.ast.HeapletAstTransformation" ])
-@interface Heaplet {
-    String[] name() default []
-}
+
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+@interface Context {}

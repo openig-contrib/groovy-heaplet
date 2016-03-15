@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package org.openig.heaplet
+package org.openig.groovy.heaplet
 
 import org.forgerock.json.JsonValue
 import org.forgerock.openig.heap.GenericHeaplet
 import org.forgerock.openig.heap.Heap
 import org.forgerock.openig.heap.HeapException
 import org.forgerock.openig.heap.Name
-import org.openig.heaplet.coerce.Converters
+import org.openig.groovy.heaplet.coerce.Converters
 
 import java.lang.reflect.Field
 import java.lang.reflect.Modifier

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.openig.heaplet
+package org.openig.groovy.heaplet
 
 import org.forgerock.http.Handler
 import org.forgerock.http.protocol.Response

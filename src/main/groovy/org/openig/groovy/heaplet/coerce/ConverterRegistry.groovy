@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.openig.heaplet.coerce
+package org.openig.groovy.heaplet.coerce
 
 /**
  * Created by guillaume on 02/03/16.

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.openig.heaplet.ast
+package org.openig.groovy.heaplet.ast
 
 import groovy.transform.CompileStatic
 import org.codehaus.groovy.ast.*
@@ -27,7 +27,7 @@ import org.codehaus.groovy.control.CompilePhase
 import org.codehaus.groovy.control.SourceUnit
 import org.codehaus.groovy.transform.AbstractASTTransformation
 import org.codehaus.groovy.transform.GroovyASTTransformation
-import org.openig.heaplet.GHeaplet
+import org.openig.groovy.heaplet.GHeaplet
 
 import static java.lang.reflect.Modifier.*
 

@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-package org.openig.heaplet
+package org.openig.groovy.heaplet
+
+import org.openig.groovy.heaplet.coerce.Converter
 
 import java.lang.annotation.ElementType
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
 import java.lang.annotation.Target
 
-/**
- * Created by guillaume on 01/03/16.
- */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@interface Attribute {
-    String value() default ""
+@interface Transform {
+    Class<? extends Converter<?>> value()
 }
