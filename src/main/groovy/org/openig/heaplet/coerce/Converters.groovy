@@ -69,5 +69,15 @@ class Converters extends ConverterRegistry {
         register(Integer) { it.asNumber().intValue() }
         register(Byte) { it.asNumber().byteValue() }
         register(Character, CHAR_CONVERTER)
+
+        register(Closure) {
+            def script = it.asString()
+            def shell = new GroovyShell()
+            def object = shell.evaluate(script)
+            if (!(object instanceof Closure)) {
+                throw new HeapException("Can't transform '${script}' in a Closure, got '$object'")
+            }
+            return object
+        }
     }
 }

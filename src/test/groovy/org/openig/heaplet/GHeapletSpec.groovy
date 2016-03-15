@@ -93,6 +93,17 @@ class GHeapletSpec extends Specification {
         object.handler
     }
 
+    def "Should inject closure"() {
+        given:
+        def heaplet = new GHeaplet(ClosureAttribute)
+
+        when:
+        def object = heaplet.create(name, json([closure: '{ name -> "Hello $name!" }']), heap)
+
+        then:
+        object.closure("Guillaume") == "Hello Guillaume!"
+    }
+
     @Unroll
     def "#type.simpleName message should be equal to #result"() {
         given:
@@ -237,6 +248,10 @@ class GHeapletSpec extends Specification {
 
     static class RequiredImplicitAttribute {
         String message
+    }
+
+    static class ClosureAttribute {
+        Closure<String> closure
     }
 
     static class RequiredAttribute {
