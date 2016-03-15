@@ -21,6 +21,7 @@ apply plugin: 'groovy'
 apply plugin: 'maven'
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven {
         url "http://maven.forgerock.org/repo/releases"
