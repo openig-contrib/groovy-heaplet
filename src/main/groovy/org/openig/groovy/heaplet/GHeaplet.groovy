@@ -16,16 +16,16 @@
 
 package org.openig.groovy.heaplet
 
+import java.lang.reflect.Field
+import java.lang.reflect.Modifier
+import java.lang.reflect.ParameterizedType
+
 import org.forgerock.json.JsonValue
 import org.forgerock.openig.heap.GenericHeaplet
 import org.forgerock.openig.heap.Heap
 import org.forgerock.openig.heap.HeapException
 import org.forgerock.openig.heap.Name
 import org.openig.groovy.heaplet.coerce.Converters
-
-import java.lang.reflect.Field
-import java.lang.reflect.Modifier
-import java.lang.reflect.ParameterizedType
 
 /**
  * Created by guillaume on 01/03/16.
@@ -67,17 +67,17 @@ public class GHeaplet extends GenericHeaplet {
             if (context) {
                 // Only supported: Heap, JsonValue and Name
                 switch (property.type) {
-                    case Heap:
-                        value = heap
-                        break
-                    case JsonValue:
-                        value = config
-                        break
-                    case Name:
-                        value = qualified
-                        break
-                    default:
-                        throw new HeapException("@Context is only supported on Heap, JsonValue and Name")
+                case Heap:
+                    value = heap
+                    break
+                case JsonValue:
+                    value = config
+                    break
+                case Name:
+                    value = qualified
+                    break
+                default:
+                    throw new HeapException("@Context is only supported on Heap, JsonValue and Name")
                 }
             } else {
                 Optional optional = field.getAnnotation(Optional)
@@ -108,7 +108,7 @@ public class GHeaplet extends GenericHeaplet {
         if (List.isAssignableFrom(field.type)) {
             // Get generic type info
             ParameterizedType pt = field.genericType
-            Class clazz = pt.getActualTypeArguments()[0] as Class
+            Class clazz = pt.getActualTypeArguments()[ 0 ] as Class
             return node.collect {
                 doConvert(it, clazz, reference, optional, transform)
             }
@@ -117,7 +117,7 @@ public class GHeaplet extends GenericHeaplet {
         if (Set.isAssignableFrom(field.type)) {
             // Get generic type info
             ParameterizedType pt = field.genericType
-            Class clazz = pt.getActualTypeArguments()[0] as Class
+            Class clazz = pt.getActualTypeArguments()[ 0 ] as Class
             return node.collect(new LinkedHashSet()) {
                 doConvert(it, clazz, reference, optional, transform)
             }
@@ -126,7 +126,7 @@ public class GHeaplet extends GenericHeaplet {
         if (Collection.isAssignableFrom(field.type)) {
             // Get generic type info
             ParameterizedType pt = field.genericType
-            Class clazz = pt.getActualTypeArguments()[0] as Class
+            Class clazz = pt.getActualTypeArguments()[ 0 ] as Class
             return node.collect {
                 doConvert(it, clazz, reference, optional, transform)
             }

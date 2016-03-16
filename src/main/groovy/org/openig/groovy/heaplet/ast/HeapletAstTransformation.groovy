@@ -16,8 +16,15 @@
 
 package org.openig.groovy.heaplet.ast
 
-import groovy.transform.CompileStatic
-import org.codehaus.groovy.ast.*
+import static java.lang.reflect.Modifier.FINAL
+import static java.lang.reflect.Modifier.PUBLIC
+import static java.lang.reflect.Modifier.STATIC
+
+import org.codehaus.groovy.ast.ASTNode
+import org.codehaus.groovy.ast.ClassHelper
+import org.codehaus.groovy.ast.ClassNode
+import org.codehaus.groovy.ast.ConstructorNode
+import org.codehaus.groovy.ast.InnerClassNode
 import org.codehaus.groovy.ast.expr.ArgumentListExpression
 import org.codehaus.groovy.ast.expr.ClassExpression
 import org.codehaus.groovy.ast.expr.ConstructorCallExpression
@@ -29,7 +36,7 @@ import org.codehaus.groovy.transform.AbstractASTTransformation
 import org.codehaus.groovy.transform.GroovyASTTransformation
 import org.openig.groovy.heaplet.GHeaplet
 
-import static java.lang.reflect.Modifier.*
+import groovy.transform.CompileStatic
 
 /**
  * Created by guillaume on 05/03/16.
@@ -42,7 +49,7 @@ class HeapletAstTransformation extends AbstractASTTransformation {
 
     @Override
     void visit(final ASTNode[] nodes, final SourceUnit source) {
-        ClassNode outerNode = nodes[1] as ClassNode
+        ClassNode outerNode = nodes[ 1 ] as ClassNode
 
         def innerClassNode = new InnerClassNode(outerNode,
                                                 outerNode.name + '$Heaplet',

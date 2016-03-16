@@ -16,32 +16,39 @@
 
 package org.openig.groovy.heaplet
 
-import org.forgerock.http.Handler
-import org.forgerock.http.protocol.Response
-import org.forgerock.http.protocol.Status
-import org.forgerock.json.JsonValue
-import org.forgerock.openig.heap.*
-import org.forgerock.openig.io.TemporaryStorage
-import org.forgerock.openig.log.NullLogSink
-import spock.lang.Shared
-import spock.lang.Specification
-import spock.lang.Unroll
-
-import java.util.concurrent.ConcurrentSkipListSet
-import java.util.concurrent.CopyOnWriteArrayList
-
 import static org.forgerock.http.protocol.Response.newResponsePromise
 import static org.forgerock.json.JsonValue.json
 import static org.hamcrest.CoreMatchers.hasItems
 import static spock.util.matcher.HamcrestSupport.expect
+
+import java.util.concurrent.ConcurrentSkipListSet
+import java.util.concurrent.CopyOnWriteArrayList
+
+import org.forgerock.http.Handler
+import org.forgerock.http.protocol.Response
+import org.forgerock.http.protocol.Status
+import org.forgerock.json.JsonValue
+import org.forgerock.openig.heap.Heap
+import org.forgerock.openig.heap.HeapException
+import org.forgerock.openig.heap.HeapImpl
+import org.forgerock.openig.heap.Keys
+import org.forgerock.openig.heap.Name
+import org.forgerock.openig.io.TemporaryStorage
+import org.forgerock.openig.log.NullLogSink
+
+import spock.lang.Shared
+import spock.lang.Specification
+import spock.lang.Unroll
 
 /**
  * Created by guillaume on 02/03/16.
  */
 class GHeapletSpec extends Specification {
 
-    @Shared Name name = Name.of("this")
-    @Shared HeapImpl heap = new HeapImpl(Name.of("heap"))
+    @Shared
+    Name name = Name.of("this")
+    @Shared
+    HeapImpl heap = new HeapImpl(Name.of("heap"))
 
     void setup() {
         heap.put(Keys.LOGSINK_HEAP_KEY, new NullLogSink())
@@ -53,7 +60,7 @@ class GHeapletSpec extends Specification {
         def heaplet = new GHeaplet(RequiredAttribute)
 
         when:
-        heaplet.create(name, json([:]), heap)
+        heaplet.create(name, json([ : ]), heap)
 
         then:
         thrown(HeapException)
@@ -62,10 +69,10 @@ class GHeapletSpec extends Specification {
     def "Should inject named reference"() {
         given:
         def heaplet = new GHeaplet(ReferenceSupport)
-        heap.put("new-handler", {context, request -> newResponsePromise(new Response(Status.OK))} as Handler)
+        heap.put("new-handler", { context, request -> newResponsePromise(new Response(Status.OK)) } as Handler)
 
         when:
-        def object = heaplet.create(name, json([handler: "new-handler"]), heap)
+        def object = heaplet.create(name, json([ handler: "new-handler" ]), heap)
 
         then:
         object.handler
@@ -76,7 +83,7 @@ class GHeapletSpec extends Specification {
         def heaplet = new GHeaplet(OptionalReferenceSupport)
 
         when:
-        def object = heaplet.create(name, json([:]), heap)
+        def object = heaplet.create(name, json([ : ]), heap)
 
         then:
         !object.handler
@@ -87,7 +94,7 @@ class GHeapletSpec extends Specification {
         def heaplet = new GHeaplet(ReferenceSupport)
 
         when:
-        def object = heaplet.create(name, json([handler:[ type: 'ClientHandler' ]]), heap)
+        def object = heaplet.create(name, json([ handler: [ type: 'ClientHandler' ] ]), heap)
 
         then:
         object.handler
@@ -98,7 +105,7 @@ class GHeapletSpec extends Specification {
         def heaplet = new GHeaplet(ClosureAttribute)
 
         when:
-        def object = heaplet.create(name, json([closure: '{ name -> "Hello $name!" }']), heap)
+        def object = heaplet.create(name, json([ closure: '{ name -> "Hello $name!" }' ]), heap)
 
         then:
         object.closure("Guillaume") == "Hello Guillaume!"
@@ -121,7 +128,7 @@ class GHeapletSpec extends Specification {
         RequiredNamedAttribute    | [ "msg": "Hello" ]     || "Hello"
         RequiredImplicitAttribute | [ "message": "Hello" ] || "Hello"
         OptionalAttribute         | [ "message": "Hello" ] || "Hello"
-        OptionalAttribute         | [:]                    || null
+        OptionalAttribute         | [ : ]                  || null
         TransformSupport          | [ "message": "Hello" ] || "Hello World"
     }
 
@@ -137,15 +144,15 @@ class GHeapletSpec extends Specification {
         thrown(HeapException)
 
         where:
-        type              | config
-        StaticAttribute   | [ "message": "Hello" ]
-        FinalAttribute    | [ "message": "Hello" ]
+        type            | config
+        StaticAttribute | [ "message": "Hello" ]
+        FinalAttribute  | [ "message": "Hello" ]
     }
 
     def "Should inject heap, config and name"() {
         given:
         def heaplet = new GHeaplet(ContextSupport)
-        def config = json([:])
+        def config = json([ : ])
 
         when:
         def object = heaplet.create(name, config, heap)
@@ -163,13 +170,13 @@ class GHeapletSpec extends Specification {
         when:
         def config = [
                 aBoolean: true,
-                aShort: 42,
-                anInt: 312,
-                aLong: 123456789,
-                aFloat: 12.5,
-                aDouble: 125134644,
-                aChar: 2,
-                aChar2: "a"
+                aShort  : 42,
+                anInt   : 312,
+                aLong   : 123456789,
+                aFloat  : 12.5,
+                aDouble : 125134644,
+                aChar   : 2,
+                aChar2  : "a"
         ]
         def object = heaplet.create(name, json(config), heap)
 
@@ -189,7 +196,7 @@ class GHeapletSpec extends Specification {
         def heaplet = new GHeaplet(RequiredListAttribute)
 
         when:
-        def RequiredListAttribute object = heaplet.create(name, json([messages: [ "one", "two", "three" ]]), heap)
+        def RequiredListAttribute object = heaplet.create(name, json([ messages: [ "one", "two", "three" ] ]), heap)
 
         then:
         expect object.list, hasItems("one", "two", "three")
@@ -204,7 +211,7 @@ class GHeapletSpec extends Specification {
         def heaplet = new GHeaplet(RequiredSetAttribute)
 
         when:
-        def RequiredSetAttribute object = heaplet.create(name, json([messages: [ "one", "two", "three" ]]), heap)
+        def RequiredSetAttribute object = heaplet.create(name, json([ messages: [ "one", "two", "three" ] ]), heap)
 
         then:
         expect object.set, hasItems("one", "two", "three")
@@ -219,7 +226,10 @@ class GHeapletSpec extends Specification {
         def heaplet = new GHeaplet(RequiredCollectionAttribute)
 
         when:
-        def RequiredCollectionAttribute object = heaplet.create(name, json([messages: [ "one", "two", "three" ]]), heap)
+        def RequiredCollectionAttribute object = heaplet.create(
+                name,
+                json([ messages: [ "one", "two", "three" ] ]),
+                heap)
 
         then:
         expect object.collection, hasItems("one", "two", "three")
@@ -230,7 +240,7 @@ class GHeapletSpec extends Specification {
         def heaplet = new GHeaplet(TransformedAttributes)
 
         when:
-        def TransformedAttributes object = heaplet.create(name, json([messages: [ "one", "two", "three" ]]), heap)
+        def TransformedAttributes object = heaplet.create(name, json([ messages: [ "one", "two", "three" ] ]), heap)
 
         then:
         expect object.list, hasItems("one world", "two world", "three world")
@@ -285,7 +295,7 @@ class GHeapletSpec extends Specification {
 
     static class TransformSupport {
         @Attribute
-        @Transform({"${it.asString()} World"})
+        @Transform({ "${it.asString()} World" })
         String message
     }
 
@@ -367,15 +377,15 @@ class GHeapletSpec extends Specification {
 
     static class TransformedAttributes {
         @Attribute('messages')
-        @Transform({"${it.asString()} world" as String})
+        @Transform({ "${it.asString()} world" as String })
         Collection<String> collection
 
         @Attribute('messages')
-        @Transform({"${it.asString()} world" as String})
+        @Transform({ "${it.asString()} world" as String })
         List<String> list
 
         @Attribute('messages')
-        @Transform({"${it.asString()} world" as String})
+        @Transform({ "${it.asString()} world" as String })
         Set<String> set
     }
 }

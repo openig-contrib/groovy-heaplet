@@ -20,10 +20,10 @@ package org.openig.groovy.heaplet.coerce
  * Created by guillaume on 02/03/16.
  */
 class ConverterRegistry {
-    def converters = [:]
+    def converters = [ : ]
 
     def <T> void register(Class<T> type, Converter<T> converter) {
-        converters[type] = converter
+        converters[ type ] = converter
     }
 
     def unregister(Class<?> type) {
@@ -31,7 +31,7 @@ class ConverterRegistry {
     }
 
     def Converter<?> find(Class<?> type) {
-        converters[type]
+        converters[ type ]
     }
 
     def Converter<?> find(Closure<?> closure) {

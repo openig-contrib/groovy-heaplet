@@ -16,11 +16,11 @@
 
 package org.openig.groovy.heaplet.coerce
 
-import org.forgerock.json.JsonPointer
-import org.forgerock.openig.heap.HeapException
-
 import java.nio.charset.Charset
 import java.util.regex.Pattern
+
+import org.forgerock.json.JsonPointer
+import org.forgerock.openig.heap.HeapException
 
 /**
  * Created by guillaume on 02/03/16.
@@ -30,7 +30,7 @@ class Converters extends ConverterRegistry {
     static final Converter<Character> CHAR_CONVERTER = {
         if (it.isString()) {
             if (it.asString().size() == 1) {
-                return it.asString()[0]
+                return it.asString()[ 0 ]
             } else {
                 throw new HeapException("${it.pointer} cannot be converter as char")
             }

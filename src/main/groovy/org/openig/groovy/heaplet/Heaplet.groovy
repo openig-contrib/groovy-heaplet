@@ -16,12 +16,12 @@
 
 package org.openig.groovy.heaplet
 
-import org.codehaus.groovy.transform.GroovyASTTransformationClass
-
 import java.lang.annotation.ElementType
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
 import java.lang.annotation.Target
+
+import org.codehaus.groovy.transform.GroovyASTTransformationClass
 
 /**
  * Created by guillaume on 05/03/16.
@@ -30,5 +30,5 @@ import java.lang.annotation.Target
 @Target(ElementType.TYPE)
 @GroovyASTTransformationClass([ "org.openig.groovy.heaplet.ast.HeapletAstTransformation" ])
 @interface Heaplet {
-    String[] name() default []
+    String[] name() default [ ]
 }

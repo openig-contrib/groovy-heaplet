@@ -16,12 +16,12 @@
 
 package org.openig.groovy.heaplet
 
-import org.openig.groovy.heaplet.coerce.Converter
-
 import java.lang.annotation.ElementType
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
 import java.lang.annotation.Target
+
+import org.openig.groovy.heaplet.coerce.Converter
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
