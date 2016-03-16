@@ -38,7 +38,6 @@ import static java.lang.reflect.Modifier.*
 @GroovyASTTransformation(phase = CompilePhase.SEMANTIC_ANALYSIS)
 class HeapletAstTransformation extends AbstractASTTransformation {
 
-
     static final ClassNode GHEAPLET_NODE = ClassHelper.make(GHeaplet)
 
     @Override
@@ -53,7 +52,7 @@ class HeapletAstTransformation extends AbstractASTTransformation {
         statement.addStatement(
                 new ExpressionStatement(
                         new ConstructorCallExpression(
-                                GHEAPLET_NODE,
+                                ClassNode.SUPER,
                                 new ArgumentListExpression(new ClassExpression(outerNode)))))
         innerClassNode.addConstructor(new ConstructorNode(PUBLIC, statement))
 
