@@ -22,11 +22,13 @@ import java.lang.annotation.RetentionPolicy
 import java.lang.annotation.Target
 
 /**
- * Created by guillaume on 01/03/16.
+ * Denotes a field that will contains references to other heap objects.
+ * The dependency resolution can be done through a simple named reference or with
+ * a complete inline declaration in the configuration.
+ *
+ * <p>Note that {@link Reference} and {@link Transform} are mutually exclusive
+ * ({@link Reference} has priority).
  */
-
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@interface Reference {
-
-}
+@interface Reference { }

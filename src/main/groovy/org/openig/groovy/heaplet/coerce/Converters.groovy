@@ -23,7 +23,7 @@ import org.forgerock.json.JsonPointer
 import org.forgerock.openig.heap.HeapException
 
 /**
- * Created by guillaume on 02/03/16.
+ * Pre-configured converter registry.
  */
 class Converters extends ConverterRegistry {
 

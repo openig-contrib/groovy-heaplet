@@ -24,11 +24,17 @@ import java.lang.annotation.Target
 import org.codehaus.groovy.transform.GroovyASTTransformationClass
 
 /**
- * Created by guillaume on 05/03/16.
+ * Placed on a type that has to be configured through the OpenIG heap, this annotation will
+ * trigger the generation of the appropriate {@code Heaplet} static inner class that is used
+ * by the framework to configure declared instance.
  */
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.TYPE)
 @GroovyASTTransformationClass([ "org.openig.groovy.heaplet.ast.HeapletAstTransformation" ])
 @interface Heaplet {
+
+    /**
+     * Alias names (not supported yet).
+     */
     String[] name() default [ ]
 }

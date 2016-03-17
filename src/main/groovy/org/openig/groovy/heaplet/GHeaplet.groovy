@@ -25,15 +25,33 @@ import org.forgerock.openig.heap.GenericHeaplet
 import org.forgerock.openig.heap.Heap
 import org.forgerock.openig.heap.HeapException
 import org.forgerock.openig.heap.Name
+import org.openig.groovy.heaplet.coerce.ConverterRegistry
 import org.openig.groovy.heaplet.coerce.Converters
 
 /**
- * Created by guillaume on 01/03/16.
+ * Base class that supports a declarative heap object programming model.
+ * It is responsible for performing value type conversion, injection and validation.
+ *
+ * @see Heaplet
+ * @see org.openig.groovy.heaplet.ast.HeapletAstTransformation
  */
 public class GHeaplet extends GenericHeaplet {
-    final Class type
-    final Converters converters = new Converters()
 
+    /**
+     * Managed type.
+     */
+    final Class type
+
+    /**
+     * Converter registry.
+     */
+    final ConverterRegistry converters = new Converters()
+
+    /**
+     * Construct a new Heaplet for the given managed type.
+     *
+     * @param type the managed type out of it we'll create and configure instances.
+     */
     public GHeaplet(final Class type) {
         this.type = type;
     }

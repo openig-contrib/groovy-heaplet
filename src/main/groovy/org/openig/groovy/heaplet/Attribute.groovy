@@ -22,10 +22,17 @@ import java.lang.annotation.RetentionPolicy
 import java.lang.annotation.Target
 
 /**
- * Created by guillaume on 01/03/16.
+ * Describes the mapping with the configuration property to use when initializing the object.
+ * By default the property name is used.
+ *
+ * <p>This annotation can be omitted.
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @interface Attribute {
+
+    /**
+     * The attribute name to be used when looking for configuration data.
+     */
     String value() default ""
 }

@@ -23,8 +23,18 @@ import java.lang.annotation.Target
 
 import org.openig.groovy.heaplet.coerce.Converter
 
+/**
+ * Applies the provided transformation to a given {@link org.forgerock.json.JsonValue} node.
+ *
+ * <p>Note that {@link Reference} and {@link Transform} are mutually exclusive
+ * ({@link Reference} has priority).
+ */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @interface Transform {
+
+    /**
+     * Closures describing transformation.
+     */
     Class<? extends Converter<?>> value()
 }

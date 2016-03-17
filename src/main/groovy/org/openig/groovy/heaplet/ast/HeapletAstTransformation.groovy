@@ -39,7 +39,16 @@ import org.openig.groovy.heaplet.GHeaplet
 import groovy.transform.CompileStatic
 
 /**
- * Created by guillaume on 05/03/16.
+ * Generate a public static inner class named {@literal Heaplet}:
+ *
+ * <pre>
+ *     {@code public static final Heaplet extends GHeaplet {
+ *         public Heaplet() {
+ *             super(MyHeapObjectType.class);
+ *         }
+ *     }
+ *     }
+ * </pre>
  */
 @CompileStatic
 @GroovyASTTransformation(phase = CompilePhase.SEMANTIC_ANALYSIS)

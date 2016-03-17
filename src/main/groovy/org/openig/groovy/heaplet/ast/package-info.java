@@ -14,18 +14,7 @@
  * limitations under the License.
  */
 
-package org.openig.groovy.heaplet
-
-import java.lang.annotation.ElementType
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
-import java.lang.annotation.Target
-
 /**
- * Placed on a property, this annotation indicates that the system should use its default value
- * when there is no adequate configuration attribute.
+ * Automated adapters generation for heap objects.
  */
-@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.RUNTIME)
-@interface Optional {
-}
+package org.openig.groovy.heaplet.ast;

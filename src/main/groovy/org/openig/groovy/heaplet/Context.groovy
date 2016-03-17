@@ -22,9 +22,9 @@ import java.lang.annotation.RetentionPolicy
 import java.lang.annotation.Target
 
 /**
- * Created by guillaume on 03/03/16.
+ * Annotates a {@link org.forgerock.json.JsonValue}, {@link org.forgerock.openig.heap.Heap}
+ * or {@link org.forgerock.openig.heap.Name} property.
  */
-
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @interface Context {}

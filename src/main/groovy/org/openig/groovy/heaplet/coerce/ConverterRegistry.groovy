@@ -17,7 +17,7 @@
 package org.openig.groovy.heaplet.coerce
 
 /**
- * Created by guillaume on 02/03/16.
+ * Registry for {@link Converter} functions.
  */
 class ConverterRegistry {
     def converters = [ : ]

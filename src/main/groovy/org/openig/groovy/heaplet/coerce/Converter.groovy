@@ -21,6 +21,9 @@ import org.forgerock.openig.heap.HeapException
 import org.forgerock.util.Function
 
 /**
- * Created by guillaume on 02/03/16.
+ * Generic {@link Function} ({@literal Function<JsonValue, T, HeapException>}) to transform
+ * a given {@link JsonValue} into a given {@literal T} type.
+ *
+ * @param T Converted type (output)
  */
 interface Converter<T> extends Function<JsonValue, T, HeapException> {}
