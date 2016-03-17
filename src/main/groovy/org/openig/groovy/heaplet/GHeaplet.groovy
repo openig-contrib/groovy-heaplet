@@ -85,6 +85,11 @@ public class GHeaplet extends GenericHeaplet {
                 Transform transform = field.getAnnotation(Transform)
 
                 value = convert(config.get(pointer), field, optional, reference, transform)
+
+                // Keep the old value if there was none found and the field was optional
+                if (!value && optional) {
+                    value = property.getProperty(o)
+                }
             }
 
             property.setProperty(o, value)

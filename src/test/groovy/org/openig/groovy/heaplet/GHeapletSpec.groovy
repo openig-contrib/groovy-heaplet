@@ -83,10 +83,16 @@ class GHeapletSpec extends Specification {
         def heaplet = new GHeaplet(OptionalReferenceSupport)
 
         when:
-        def object = heaplet.create(name, json([ : ]), heap)
+        def OptionalReferenceSupport object = heaplet.create(name, json([ random2 : 42 ]), heap)
 
         then:
+        // handler is missing from configuration and not found in heap
         !object.handler
+        // random is not null
+        object.random
+        // random2 is a Random with fixed seed
+        def r = new Random(42)
+        r.nextInt() == object.random2.nextInt()
     }
 
     def "Should inject inlined reference"() {
@@ -304,6 +310,13 @@ class GHeapletSpec extends Specification {
         @Optional
         @Reference
         Handler handler
+
+        @Optional
+        Random random = new Random()
+
+        @Optional
+        @Transform({ new Random(it.asNumber().longValue()) })
+        Random random2 = new Random()
     }
 
     static class TransformSupport {
