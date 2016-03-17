@@ -248,6 +248,19 @@ class GHeapletSpec extends Specification {
         expect object.collection, hasItems("one world", "two world", "three world")
     }
 
+    def "Use Heaplet extending GHeaplet"() {
+        given:
+        def heaplet = new ListOfUrisHeaplet()
+
+        when:
+        def ListOfUris object = heaplet.create(name,
+                                               json([ baseUris: [ "http://example.com", "http://forgerock.org" ] ]),
+                                               heap)
+
+        then:
+        expect object.uris, hasItems(URI.create("http://example.com"), URI.create("http://forgerock.org"))
+    }
+
     static class StaticAttribute {
         static String message
     }
@@ -387,5 +400,16 @@ class GHeapletSpec extends Specification {
         @Attribute('messages')
         @Transform({ "${it.asString()} world" as String })
         Set<String> set
+    }
+
+    static class ListOfUris {
+        @Attribute('baseUris')
+        List<URI> uris
+    }
+
+    static class ListOfUrisHeaplet extends GHeaplet {
+        ListOfUrisHeaplet() {
+            super(ListOfUris)
+        }
     }
 }

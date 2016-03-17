@@ -135,7 +135,7 @@ public class GHeaplet extends GenericHeaplet {
         return doConvert(node, field.type, reference, optional, transform)
     }
 
-    private doConvert(JsonValue node, Class type, Reference reference, Optional optional, Transform transform) {
+    Object doConvert(JsonValue node, Class type, Reference reference, Optional optional, Transform transform) {
         if (reference) {
             def opt = optional != null
             return heap.resolve(node, type, opt)
