@@ -21,11 +21,12 @@ image:https://travis-ci.org/openig-contrib/groovy-heaplet.svg?branch=master["Bui
 Declarative programming model easing Groovy heap object implementation.
 
  * Version: 1.0
- * License: Apache Software License 2.0
- * Authors: Guillaume Sauthier
+ * License: link:LICENSE[Apache Software License 2.0]
+ * Authors: https://github.com/sauthieg[Guillaume Sauthier]
 
 == Usage
 
+[source,groovy]
 ----
 @Heaplet
 class LogFilter implements Filter {
