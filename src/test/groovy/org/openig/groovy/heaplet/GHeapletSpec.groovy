@@ -140,15 +140,15 @@ class GHeapletSpec extends Specification {
     }
 
     @Unroll
-    def "Should not inject static or final attributes in #type.simpleName"() {
+    def "Should ignore static or final attributes in #type.simpleName"() {
         given:
         def heaplet = new GHeaplet(type)
 
         when:
-        heaplet.create(name, json(config), heap)
+        def object = heaplet.create(name, json(config), heap)
 
         then:
-        thrown(HeapException)
+        object.message == "a"
 
         where:
         type            | config
@@ -280,7 +280,7 @@ class GHeapletSpec extends Specification {
     }
 
     static class StaticAttribute {
-        static String message
+        static String message = "a"
     }
 
     static class FinalAttribute {

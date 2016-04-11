@@ -70,7 +70,8 @@ public class GHeaplet extends GenericHeaplet {
 
             // Exclude static / final fields
             if (Modifier.isStatic(property.modifiers) || Modifier.isFinal(property.modifiers)) {
-                throw new HeapException("Cannot inject in static or final field " + property.name)
+                logger.trace("Cannot inject in static or final field " + property.name)
+                return
             }
 
             Field field = property.field.field
