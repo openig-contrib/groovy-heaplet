@@ -28,6 +28,7 @@ import org.forgerock.http.Handler
 import org.forgerock.http.protocol.Response
 import org.forgerock.http.protocol.Status
 import org.forgerock.json.JsonValue
+import org.forgerock.openig.heap.GenericHeapObject
 import org.forgerock.openig.heap.Heap
 import org.forgerock.openig.heap.HeapException
 import org.forgerock.openig.heap.HeapImpl
@@ -267,6 +268,17 @@ class GHeapletSpec extends Specification {
         expect object.uris, hasItems(URI.create("http://example.com"), URI.create("http://forgerock.org"))
     }
 
+    def "Should Ignore GenericHeapObject attributes"() {
+        given:
+        def heaplet = new GHeaplet(ExtendsGenericHeapObject)
+
+        when:
+        def object = heaplet.create(name, json([ : ]), heap)
+
+        then:
+        object != null
+    }
+
     static class StaticAttribute {
         static String message
     }
@@ -425,4 +437,7 @@ class GHeapletSpec extends Specification {
             super(ListOfUris)
         }
     }
+
+    static class ExtendsGenericHeapObject extends GenericHeapObject {}
+
 }

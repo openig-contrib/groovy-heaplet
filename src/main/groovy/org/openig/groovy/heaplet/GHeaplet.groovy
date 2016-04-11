@@ -21,6 +21,7 @@ import java.lang.reflect.Modifier
 import java.lang.reflect.ParameterizedType
 
 import org.forgerock.json.JsonValue
+import org.forgerock.openig.heap.GenericHeapObject
 import org.forgerock.openig.heap.GenericHeaplet
 import org.forgerock.openig.heap.Heap
 import org.forgerock.openig.heap.HeapException
@@ -73,6 +74,12 @@ public class GHeaplet extends GenericHeaplet {
             }
 
             Field field = property.field.field
+
+            // Ignore properties from GenericHeapObject
+            if (field.declaringClass == GenericHeapObject) {
+                return
+            }
+
             if (field.isAnnotationPresent(Attribute)) {
                 def name = field.getAnnotation(Attribute).value()
                 if (!"".equals(name)) {
